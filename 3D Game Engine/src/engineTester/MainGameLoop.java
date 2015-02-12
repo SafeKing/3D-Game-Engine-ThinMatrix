@@ -18,12 +18,18 @@ public class MainGameLoop {
 
 		// OpenGL expects vertices to be defined counter clockwise by default
 		float[] vertices = {
-				// Left bottom triangle
-				-0.5f, 0.5f, 0f, -0.5f, -0.5f, 0f, 0.5f, -0.5f, 0f,
-				// Right top triangle
-				0.5f, -0.5f, 0f, 0.5f, 0.5f, 0f, -0.5f, 0.5f, 0f };
+				-0.5f, 0.5f, 0f, // V0
+				-0.5f, -0.5f, 0f, // V1
+				0.5f, -0.5f, 0f, // V2
+				0.5f, 0.5f, 0f, // V3
+		};
 
-		RawModel model = loader.loadToVAO(vertices);
+		int[] indices = {
+				0, 1, 3, // Top left triangle (V0, V1, V3)
+				3, 1, 2 // Bottom right triangle (V3, V1, V1)
+		};
+
+		RawModel model = loader.loadToVAO(vertices, indices);
 
 		while (!Display.isCloseRequested()) {
 			renderer.prepare();
