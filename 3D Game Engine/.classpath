@@ -8,5 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="G:/Mis documentos/Programación/GitHub/3D-Game-Engine-ThinMatrix/3D Game Engine/lib/jars/slick-util.jar"/>
+	<classpathentry kind="lib" path="G:/Mis documentos/Programación/GitHub/3D-Game-Engine-ThinMatrix/3D Game Engine/lib/jars/lwjgl_util.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
