@@ -1,12 +1,15 @@
 package engineTester;
 
+import models.RawModel;
+import models.TexturedModel;
+
 import org.lwjgl.opengl.Display;
 
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
-import renderEngine.RawModel;
 import renderEngine.Renderer;
 import shaders.StaticShader;
+import textures.ModelTexture;
 
 public class MainGameLoop {
 
@@ -15,7 +18,7 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
-		StaticShader shader=new StaticShader();
+		StaticShader shader = new StaticShader();
 
 		// OpenGL expects vertices to be defined counter clockwise by default
 		float[] vertices = {
@@ -30,12 +33,21 @@ public class MainGameLoop {
 				3, 1, 2 // Bottom right triangle (V3, V1, V1)
 		};
 
-		RawModel model = loader.loadToVAO(vertices, indices);
+		float[] textureCoords = {
+				0, 0, // V0
+				0, 1, // V1
+				1, 1, // V2
+				1, 0 // V3
+		};
+
+		RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("image"));
+		TexturedModel texturedModel = new TexturedModel(model, texture);
 
 		while (!Display.isCloseRequested()) {
 			renderer.prepare();
 			shader.start();
-			renderer.render(model);
+			renderer.render(texturedModel);
 			shader.stop();
 			DisplayManager.updateDisplay();
 		}
