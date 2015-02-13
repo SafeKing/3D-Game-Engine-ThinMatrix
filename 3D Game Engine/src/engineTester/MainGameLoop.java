@@ -47,7 +47,11 @@ public class MainGameLoop {
 		TexturedModel tree = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
 		TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("grassTexture")));
 		TexturedModel flower = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("flower")));
-		TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader), new ModelTexture(loader.loadTexture("fern")));
+
+		ModelTexture fernTexture = new ModelTexture(loader.loadTexture("fern"));
+		fernTexture.setNumberOfRows(2);
+		TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernTexture);
+
 		TexturedModel bobble = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree", loader), new ModelTexture(loader.loadTexture("lowPolyTree")));
 
 		grass.getTexture().setHasTransparency(true);
@@ -69,11 +73,13 @@ public class MainGameLoop {
 				float x = random.nextFloat() * 800 - 400;
 				float z = random.nextFloat() * -600;
 				float y = terrain.getHeightOfTerrain(x, z);
-				entities.add(new Entity(fern, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.9f));
+				entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.9f));
+
 				x = random.nextFloat() * 800 - 400;
 				z = random.nextFloat() * -600;
 				y = terrain.getHeightOfTerrain(x, z);
 				entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 1.8f));
+
 				x = random.nextFloat() * 800 - 400;
 				z = random.nextFloat() * -600;
 				y = terrain.getHeightOfTerrain(x, z);
@@ -84,6 +90,7 @@ public class MainGameLoop {
 				float z = random.nextFloat() * -600;
 				float y = terrain.getHeightOfTerrain(x, z);
 				entities.add(new Entity(bobble, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, random.nextFloat() * 0.1f + 0.6f));
+
 				x = random.nextFloat() * 800 - 400;
 				z = random.nextFloat() * -600;
 				y = terrain.getHeightOfTerrain(x, z);
@@ -115,5 +122,4 @@ public class MainGameLoop {
 		DisplayManager.closeDisplay();
 
 	}
-
 }
