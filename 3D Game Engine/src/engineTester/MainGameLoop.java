@@ -44,7 +44,7 @@ public class MainGameLoop {
 
 		RawModel model = OBJLoader.loadObjModel("tree", loader);
 
-		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
+		TexturedModel tree = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
 		TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("grassTexture")));
 		TexturedModel flower = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("flower")));
 		TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader), new ModelTexture(loader.loadTexture("fern")));
@@ -66,7 +66,7 @@ public class MainGameLoop {
 			if (i % 3 == 0) {
 				entities.add(new Entity(fern, new Vector3f(random.nextFloat() * 400 - 200, 0, random.nextFloat() * -400), 0, random.nextFloat() * 360, 0, 0.9f));
 				entities.add(new Entity(bobble, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, random.nextFloat() * 360, 0, random.nextFloat() * 0.1f + 0.6f));
-				entities.add(new Entity(staticModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, random.nextFloat() * 1 + 4));
+				entities.add(new Entity(tree, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, random.nextFloat() * 1 + 4));
 			}
 
 		}
@@ -78,10 +78,10 @@ public class MainGameLoop {
 
 		MasterRenderer renderer = new MasterRenderer();
 
-		RawModel bunnyModel = OBJLoader.loadObjModel("stanfordBunny", loader);
-		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white")));
+		RawModel playerModel = OBJLoader.loadObjModel("player", loader);
+		TexturedModel playerTexturedModel = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture")));
 
-		Player player = new Player(stanfordBunny, new Vector3f(0, 0, -50), 0, 0, 0, 0.25f);
+		Player player = new Player(playerTexturedModel, new Vector3f(0, 0, -50), 0, 0, 0, 1);
 		Camera camera = new Camera(player);
 
 		while (!Display.isCloseRequested()) {
