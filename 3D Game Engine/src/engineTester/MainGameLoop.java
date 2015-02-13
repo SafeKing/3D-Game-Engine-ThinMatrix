@@ -73,15 +73,17 @@ public class MainGameLoop {
 
 		Light light = new Light(new Vector3f(20000, 20000, 20000), new Vector3f(1, 1, 1));
 
-		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
-		Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
+		Terrain terrain = new Terrain(0, 0, loader, texturePack, blendMap, "heightmap");
+		Terrain terrain2 = new Terrain(-1, 0, loader, texturePack, blendMap, "heightmap");
+		Terrain terrain3 = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
+		Terrain terrain4 = new Terrain(-1, -1, loader, texturePack, blendMap, "heightmap");
 
 		MasterRenderer renderer = new MasterRenderer();
 
 		RawModel playerModel = OBJLoader.loadObjModel("player", loader);
 		TexturedModel playerTexturedModel = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture")));
 
-		Player player = new Player(playerTexturedModel, new Vector3f(0, 0, -50), 0, 0, 0, 1);
+		Player player = new Player(playerTexturedModel, new Vector3f(0, 0, 0), 0, 0, 0, 1);
 		Camera camera = new Camera(player);
 
 		while (!Display.isCloseRequested()) {
@@ -90,6 +92,8 @@ public class MainGameLoop {
 			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
 			renderer.processTerrain(terrain2);
+			renderer.processTerrain(terrain3);
+			renderer.processTerrain(terrain4);
 			for (Entity entity : entities) {
 				renderer.processEntity(entity);
 			}
