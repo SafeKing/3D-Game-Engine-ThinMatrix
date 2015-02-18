@@ -43,6 +43,8 @@ public class MainGameLoop {
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
+		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
+
 		// *****************************************
 
 		RawModel model = OBJLoader.loadObjModel("tree", loader);
@@ -63,12 +65,6 @@ public class MainGameLoop {
 		flower.getTexture().setUseFakeLighting(true);
 		fern.getTexture().setHasTransparency(true);
 
-		Light light = new Light(new Vector3f(0, 10000, -10000), new Vector3f(1, 1, 1));
-
-		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
-
-		MasterRenderer renderer = new MasterRenderer();
-
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();
 		for (int i = 0; i < 500; i++) {
@@ -88,6 +84,7 @@ public class MainGameLoop {
 				y = terrain.getHeightOfTerrain(x, z);
 				entities.add(new Entity(flower, new Vector3f(x, y, z), 0, 0, 0, 2.3f));
 			}
+			
 			if (i % 3 == 0) {
 				float x = random.nextFloat() * 800 - 400;
 				float z = random.nextFloat() * -600;
@@ -102,6 +99,14 @@ public class MainGameLoop {
 
 		}
 
+		Light light = new Light(new Vector3f(0, 10000, -7000), new Vector3f(1, 1, 1));
+		List<Light> lights = new ArrayList<Light>();
+		lights.add(light);
+		lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
+		lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+
+		MasterRenderer renderer = new MasterRenderer();
+
 		RawModel playerModel = OBJLoader.loadObjModel("player", loader);
 		TexturedModel playerTexturedModel = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture")));
 
@@ -109,10 +114,8 @@ public class MainGameLoop {
 		Camera camera = new Camera(player);
 
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
-		GuiTexture gui = new GuiTexture(loader.loadTexture("gui/socuwan"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
-		GuiTexture gui2 = new GuiTexture(loader.loadTexture("gui/thinmatrix"), new Vector2f(0.30f, 0.58f), new Vector2f(0.4f, 0.4f));
-		guis.add(gui2);
-		guis.add(gui);
+		GuiTexture health = new GuiTexture(loader.loadTexture("gui/health"), new Vector2f(-0.74f, 0.925f), new Vector2f(0.25f, 0.25f));
+		guis.add(health);
 
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
 
@@ -124,7 +127,7 @@ public class MainGameLoop {
 			for (Entity entity : entities) {
 				renderer.processEntity(entity);
 			}
-			renderer.render(light, camera);
+			renderer.render(lights, camera);
 			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}
